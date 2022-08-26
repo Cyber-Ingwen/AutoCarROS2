@@ -18,7 +18,7 @@ class LocalPathPlanner(Node):
         Class constructor to initialise the class 
         '''
 
-        super().__init__('local_planner')
+        super().__init__('local_planner', automatically_declare_parameters_from_overrides=True)
 
         # Initialise publishers
         self.local_planner_pub = self.create_publisher(Path2D, '/ngeeann_av/path', 10)
@@ -31,15 +31,15 @@ class LocalPathPlanner(Node):
 
         # Load parameters
         try:
-            self.declare_parameters(
-                namespace='',
-                parameters=[
-                    ('update_frequency', None),
-                    ('frame_id', None),
-                    ('car_width', None),
-                    ('centreofgravity_to_frontaxle', None)
-                ]
-            )
+            # self.declare_parameters(
+            #     namespace='',
+            #     parameters=[
+            #         ('update_frequency', None),
+            #         ('frame_id', None),
+            #         ('car_width', None),
+            #         ('centreofgravity_to_frontaxle', None)
+            #     ]
+            # )
 
             self.frequency = float(self.get_parameter("update_frequency").value)
             self.frame_id = str(self.get_parameter("frame_id").value)

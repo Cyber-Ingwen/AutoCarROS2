@@ -15,7 +15,7 @@ class PathTracker(Node):
 
     def __init__(self):
 
-        super().__init__('path_tracker')
+        super().__init__('path_tracker',automatically_declare_parameters_from_overrides=True)
 
         # Initialise publishers
         self.tracker_pub = self.create_publisher(Twist, '/ngeeann_av/cmd_vel', 10)
@@ -28,17 +28,17 @@ class PathTracker(Node):
 
         # Load parameters
         try:
-            self.declare_parameters(
-                namespace='',
-                parameters=[
-                    ('update_frequency', None),
-                    ('control_gain', None),
-                    ('softening_gain', None),
-                    ('yawrate_gain', None),
-                    ('steering_limits', None),
-                    ('centreofgravity_to_frontaxle', None)
-                ]
-            )
+            # self.declare_parameters(
+            #     namespace='',
+            #     parameters=[
+            #         ('update_frequency', None),
+            #         ('control_gain', None),
+            #         ('softening_gain', None),
+            #         ('yawrate_gain', None),
+            #         ('steering_limits', None),
+            #         ('centreofgravity_to_frontaxle', None)
+            #     ]
+            # )
 
             self.frequency = float(self.get_parameter("update_frequency").value)
             self.k = float(self.get_parameter("control_gain").value)

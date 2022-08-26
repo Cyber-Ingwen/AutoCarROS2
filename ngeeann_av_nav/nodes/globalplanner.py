@@ -16,7 +16,7 @@ class GlobalPathPlanner(Node):
 
         ''' Class constructor to initialise the class '''
 
-        super().__init__('global_planner')
+        super().__init__('global_planner',automatically_declare_parameters_from_overrides=True)
 
         # Initialise publisher(s)
         self.goals_pub = self.create_publisher(Path2D, '/ngeeann_av/goals', 10)
@@ -27,16 +27,16 @@ class GlobalPathPlanner(Node):
 
         # Load parameters
         try:
-            self.declare_parameters(
-                namespace='',
-                parameters=[
-                    ('waypoints_ahead', None),
-                    ('waypoints_behind', None),
-                    ('passed_threshold', None),
-                    ('waypoints', None),
-                    ('centreofgravity_to_frontaxle', None)
-                ]
-            )
+            # self.declare_parameters(
+            #     namespace='',
+            #     parameters=[
+            #         ('waypoints_ahead', None),
+            #         ('waypoints_behind', None),
+            #         ('passed_threshold', None),
+            #         ('waypoints', None),
+            #         ('centreofgravity_to_frontaxle', None)
+            #     ]
+            # )
 
             self.wp_ahead = int(self.get_parameter("waypoints_ahead").value)
             self.wp_behind = int(self.get_parameter("waypoints_behind").value)

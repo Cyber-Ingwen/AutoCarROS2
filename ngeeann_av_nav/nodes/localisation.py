@@ -11,7 +11,7 @@ class Localisation(Node):
 
     def __init__(self):
 
-        super().__init__('localisation')
+        super().__init__('localisation',automatically_declare_parameters_from_overrides=True)
 
         # Initialise publishers
         self.localisation_pub = self.create_publisher(State2D, '/ngeeann_av/state2D', 10)
@@ -21,12 +21,12 @@ class Localisation(Node):
 
         # Load parameters
         try:
-            self.declare_parameters(
-                namespace='',
-                parameters=[
-                    ('update_frequency', None)
-                ]
-            )
+            # self.declare_parameters(
+            #     namespace='',
+            #     parameters=[
+            #         ('update_frequency', None)
+            #     ]
+            # )
 
             self.frequency = float(self.get_parameter("update_frequency").value)
 
