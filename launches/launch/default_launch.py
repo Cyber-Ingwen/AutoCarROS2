@@ -35,12 +35,14 @@ def generate_launch_description():
         ),
 
         ExecuteProcess(
-            cmd=['gzserver', '--verbose','-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'
+            cmd=['gzserver', '--verbose', world, 'libgazebo_ros_factory.so'],
         ),
+
+        # ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'),
 
         DeclareLaunchArgument(
             'use_sim_time',
-            default_value='false',
+            default_value='true',
             description='Use simulation (Gazebo) clock if true'
         ),
 
