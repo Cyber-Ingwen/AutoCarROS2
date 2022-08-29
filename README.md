@@ -30,14 +30,14 @@ $ cd src
 Clone repository
 
 ```bash
-$ git clone https://github.com/winstxnhdw/AutoCarROS2.git
+$ git clone https://github.com/Cyber-Ingwen/AutoCarROS2.git
 $ cd PATH/TO/WORKSPACE/src/AutoCarROS2
 ```
 
 Install ROS 2  and the required dependencies
 
 ```bash
-sh ros-foxy-desktop-full-install.sh
+# sh ros-foxy-desktop-full-install.sh
 sh requirements.sh
 ```
 
