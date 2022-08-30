@@ -34,11 +34,11 @@ def generate_launch_description():
             'RCUTILS_COLORIZED_OUTPUT', '1'
         ),
 
-        ExecuteProcess(
-            cmd=['gzserver', '--verbose', world, 'libgazebo_ros_factory.so'],
-        ),
+        # ExecuteProcess(
+        #     cmd=['gzserver', '--verbose', world, 'libgazebo_ros_factory.so'],
+        # ),
 
-        # ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'),
+        ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'),
 
         DeclareLaunchArgument(
             'use_sim_time',
