@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ngeeann_av_description</name>
-  <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="winston@todo.todo">winston</maintainer>
-  <license>TODO: License declaration</license>
+  <name>velodyne_description</name>
+  <version>1.0.9</version>
+  <description>
+    URDF and meshes describing Velodyne laser scanners.
+  </description>
 
+  <license>BSD</license>
+  <author>Kevin Hallenbeck</author>
+  <maintainer email="khallenbeck@dataspeedinc.com">Kevin Hallenbeck</maintainer>
+  <url type="website">http://wiki.ros.org/velodyne_description</url>
+  <url type="repository">https://bitbucket.org/dataspeedinc/velodyne_simulator</url>
+  <url type="bugtracker">https://bitbucket.org/dataspeedinc/velodyne_simulator/issues</url>
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <build_depend>control_msgs</build_depend>
@@ -36,7 +41,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/models"/>
-    <gazebo_ros gazebo_media_path="${prefix}/models"/>
   </export>
+
 </package>

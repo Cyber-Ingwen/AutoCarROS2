@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ngeeann_av_gazebo)
+project(velodyne_description)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -16,7 +16,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # find dependencies
-find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_auto REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
@@ -32,29 +32,12 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-link_directories(
-  ${GAZEBO_LIBRARY_DIRS}
-)
-
-include_directories(
-  ${GAZEBO_INCLUDE_DIRS}
-)
-
-
-# the place where gazebo puts the models by default
-set(GAZEBO_MODEL_PATH $ENV{HOME}/.gazebo/models)
-
-add_custom_target(COMMAND cmake -E make_directory ${GAZEBO_MODEL_PATH})
-
 install(DIRECTORY
-  worlds
-  models
-  DESTINATION share/${PROJECT_NAME}
-)
+    rviz
+    meshes
+    world
+    DESTINATION share/${PROJECT_NAME}
+  )
 
-install(DIRECTORY
-  models/ngeeann_av
-  DESTINATION ${GAZEBO_MODEL_PATH}
-)
+ament_auto_package()
 
-ament_package()

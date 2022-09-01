@@ -2,10 +2,12 @@
 
 sudo apt update
 sudo apt install python3-pip
-sudo apt install -y python3-argcomplete
-sudo apt install ros-{ROS_DISTRO}-joint-state-publisher
-sudo apt install ros-{ROS_DISTRO}-vision-msgs
-sudo apt install ros-{ROS_DISTRO}-gazebo-ros-pkgs
+sudo apt install -y \
+    python3-argcomplete \
+    ros-{ROS_DISTRO}-joint-state-publisher \
+    ros-{ROS_DISTRO}-vision-msgs \
+    ros-{ROS_DISTRO}-gazebo-ros-pkgs \
+    ros-{ROS_DISTRO}-velodyne*
 
 pip install --upgrade pip
 pip install -r requirements.txt

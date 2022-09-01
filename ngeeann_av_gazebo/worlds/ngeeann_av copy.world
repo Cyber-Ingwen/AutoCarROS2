@@ -30,6 +30,7 @@
       <uri>model://ground_plane</uri>
     </include>
 
+
     <model name='testmap'>
       <pose>6.27388 16.837 0 0 -0 0</pose>
       <link name='Wall_0'>
@@ -644,7 +645,6 @@
       <static>1</static>
     </model>
 
-    <!-- akerman model -->
     <model name="ngeeann_av">
       <pose>0 0 0.0 0 0 0</pose>
 
@@ -779,270 +779,6 @@
         <self_collide>1</self_collide>
         <!--  <gravity>1</gravity> -->
       </link>
-
-      <!-- ################################################# -->
-      <joint name='imu_joint' type='fixed'>
-        <pose relative_to='base_link'>0 0 0.5 0 -0 0</pose>
-        <parent>base_link</parent>
-        <child>imu_link</child>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-          </dynamics>
-        </axis>
-      </joint>
-      <link name='imu_link'>
-        <pose relative_to='imu_joint'>0 0 0 0 -0 0</pose>
-        <inertial>
-          <pose>0 0 0 1.5708 -0 1.5708</pose>
-          <mass>0.1</mass>
-          <inertia>
-            <ixx>0.000166667</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.000166667</iyy>
-            <iyz>0</iyz>
-            <izz>0.000166667</izz>
-          </inertia>
-        </inertial>
-        <collision name='imu_link_collision'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.1</size>
-            </box>
-          </geometry>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <friction>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <visual name='imu_link_visual'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 0.1</size>
-            </box>
-          </geometry>
-        </visual>
-        <sensor name='imu_sensor' type='imu'>
-          <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
-            <ros>
-              <namespace>/demo</namespace>
-              <remapping>~/out:=imu</remapping>
-            </ros>
-            <initial_orientation_as_reference>0</initial_orientation_as_reference>
-          </plugin>
-          <always_on>1</always_on>
-          <update_rate>100</update_rate>
-          <visualize>1</visualize>
-          <imu>
-            <angular_velocity>
-              <x>
-                <noise type='gaussian'>
-                  <mean>0</mean>
-                  <stddev>0.0002</stddev>
-                  <bias_mean>7.5e-06</bias_mean>
-                  <bias_stddev>8e-07</bias_stddev>
-                </noise>
-              </x>
-              <y>
-                <noise type='gaussian'>
-                  <mean>0</mean>
-                  <stddev>0.0002</stddev>
-                  <bias_mean>7.5e-06</bias_mean>
-                  <bias_stddev>8e-07</bias_stddev>
-                </noise>
-              </y>
-              <z>
-                <noise type='gaussian'>
-                  <mean>0</mean>
-                  <stddev>0.0002</stddev>
-                  <bias_mean>7.5e-06</bias_mean>
-                  <bias_stddev>8e-07</bias_stddev>
-                </noise>
-              </z>
-            </angular_velocity>
-            <linear_acceleration>
-              <x>
-                <noise type='gaussian'>
-                  <mean>0</mean>
-                  <stddev>0.017</stddev>
-                  <bias_mean>0.1</bias_mean>
-                  <bias_stddev>0.001</bias_stddev>
-                </noise>
-              </x>
-              <y>
-                <noise type='gaussian'>
-                  <mean>0</mean>
-                  <stddev>0.017</stddev>
-                  <bias_mean>0.1</bias_mean>
-                  <bias_stddev>0.001</bias_stddev>
-                </noise>
-              </y>
-              <z>
-                <noise type='gaussian'>
-                  <mean>0</mean>
-                  <stddev>0.017</stddev>
-                  <bias_mean>0.1</bias_mean>
-                  <bias_stddev>0.001</bias_stddev>
-                </noise>
-              </z>
-            </linear_acceleration>
-          </imu>
-        </sensor>
-      </link>
-
-      <joint name='lidar_base_mount_joint' type='fixed'>
-        <pose relative_to='base_link'>0 0 1.5 0 -0 0</pose>
-        <parent>base_link</parent>
-        <child>lidar_base_link</child>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-          </dynamics>
-        </axis>
-      </joint>
-      <link name='lidar_base_link'>
-        <pose relative_to='lidar_base_mount_joint'>0 0 0 0 -0 0</pose>
-        <inertial>
-          <pose>0 0 0.03585 0 -0 0</pose>
-          <mass>0.83</mass>
-          <inertia>
-            <ixx>0.000908059</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.000908059</iyy>
-            <iyz>0</iyz>
-            <izz>0.00110496</izz>
-          </inertia>
-        </inertial>
-        <collision name='lidar_base_link_collision'>
-          <pose>0 0 0.03585 0 -0 0</pose>
-          <geometry>
-            <cylinder>
-              <length>0.0717</length>
-              <radius>0.0516</radius>
-            </cylinder>
-          </geometry>
-        </collision>
-        <visual name='lidar_base_link_visual'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://ngeeann_av/meshes/VLP16_base_1.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <visual name='lidar_base_link_visual_1'>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://ngeeann_av/meshes/VLP16_base_2.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-      </link>
-      <joint name='lidar_base_scan_joint' type='fixed'>
-        <pose relative_to='lidar_base_link'>0 0 0.0377 0 -0 0</pose>
-        <parent>lidar_base_link</parent>
-        <child>lidar</child>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>-1e+16</lower>
-            <upper>1e+16</upper>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-          </dynamics>
-        </axis>
-      </joint>
-      <link name='lidar'>
-        <pose relative_to='lidar_base_scan_joint'>0 0 0 0 -0 0</pose>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <mass>0.01</mass>
-          <inertia>
-            <ixx>1e-07</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1e-07</iyy>
-            <iyz>0</iyz>
-            <izz>1e-07</izz>
-          </inertia>
-        </inertial>
-        <visual name='lidar_visual'>
-          <pose>0 0 -0.0377 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <scale>1 1 1</scale>
-              <uri>model://ngeeann_av/meshes/VLP16_scan.dae</uri>
-            </mesh>
-          </geometry>
-        </visual>
-        <sensor name='lidar-VLP16' type='ray'>
-          <pose>0 0 0 0 -0 0</pose>
-          <visualize>0</visualize>
-          <update_rate>10</update_rate>
-          <ray>
-            <scan>
-              <horizontal>
-                <samples>440</samples>
-                <resolution>1</resolution>
-                <min_angle>-3.14159</min_angle>
-                <max_angle>3.14159</max_angle>
-              </horizontal>
-              <vertical>
-                <samples>16</samples>
-                <resolution>1</resolution>
-                <min_angle>-0.261799</min_angle>
-                <max_angle>0.261799</max_angle>
-              </vertical>
-            </scan>
-            <range>
-              <min>0.3</min>
-              <max>131</max>
-              <resolution>0.001</resolution>
-            </range>
-            <noise>
-              <type>gaussian</type>
-              <mean>0</mean>
-              <stddev>0</stddev>
-            </noise>
-          </ray>
-          <plugin name='gazebo_ros_laser_controller' filename='libgazebo_ros_velodyne_laser.so'>
-            <ros>
-              <remapping>~/out:=/velodyne_points</remapping>
-            </ros>
-            <output_type>sensor_msgs/pointcloud2</output_type>
-            <frame_name>lidar</frame_name>
-            <min_range>0.9</min_range>
-            <max_range>130.0</max_range>
-            <gaussianNoise>0.008</gaussianNoise>
-          </plugin>
-        </sensor>
-      </link>
-      <!-- ################################################# -->
       
       <joint name='bl_axle' type='revolute'>
         <pose relative_to='chassis_link'>-0.875 -1.01364 0.324997 0 -0 0</pose>
@@ -1419,7 +1155,7 @@
         <robot_base_frame>base_link</robot_base_frame>
 
       </plugin>
-
+  
     </model>
 
   </world>
