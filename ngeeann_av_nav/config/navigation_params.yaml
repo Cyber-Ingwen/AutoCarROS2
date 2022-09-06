@@ -1,6 +1,6 @@
 localisation:
     ros__parameters:
-        update_frequency: 50.0
+        update_frequency: 60.0
 
 local_planner:
     ros__parameters:

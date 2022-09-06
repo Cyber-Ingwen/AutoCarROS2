@@ -656,16 +656,16 @@
         <child>chassis_link</child>
       </joint>
 
-      <joint name="hokuyo_joint" type="fixed">
+      <!-- <joint name="hokuyo_joint" type="fixed">
         <parent>base_link</parent>
         <child>hokuyo_link</child>
         <pose>0 0 0 0 0 0</pose>
         <axis>
           <xyz>0 0 1</xyz>
         </axis>
-      </joint>
+      </joint> -->
 
-      <link name="hokuyo_link">
+      <!-- <link name="hokuyo_link">
         <sensor name="head_hokuyo_sensor" type="ray">
           <always_on>true</always_on>
           <visualize>true</visualize>
@@ -699,7 +699,7 @@
             <frame_name>hokuyo_link</frame_name>
           </plugin>
         </sensor>
-      </link>
+      </link> -->
 
       <link name='chassis_link'>
         <inertial>
@@ -734,7 +734,7 @@
             </friction>
           </surface>
         </collision>
-        <collision name='chassis_link_fixed_joint_lump__spoiler_link_collision_1'>
+        <!-- <collision name='chassis_link_fixed_joint_lump__spoiler_link_collision_1'>
           <pose>0 0.05 0.41936 1.5708 -0 3.14159</pose>
           <geometry>
             <mesh>
@@ -753,7 +753,7 @@
               </ode>
             </friction>
           </surface>
-        </collision>
+        </collision> -->
         <visual name='chassis_link_fixed_joint_lump__chassis_link_visual'>
           <pose>0 0 0.46936 0 -0 0</pose>
           <geometry>
@@ -763,7 +763,7 @@
             </mesh>
           </geometry>
         </visual>
-        <visual name='chassis_link_fixed_joint_lump__spoiler_link_visual_1'>
+        <!-- <visual name='chassis_link_fixed_joint_lump__spoiler_link_visual_1'>
           <pose>0 0.05 0.41936 1.5708 -0 3.14159</pose>
           <geometry>
             <mesh>
@@ -771,7 +771,7 @@
               <uri>model://ngeeann_av/meshes/spoiler.stl</uri>
             </mesh>
           </geometry>
-        </visual>
+        </visual> -->
         <!-- <velocity_decay/> -->
         <!--  <gravity>1</gravity> -->
         <!--  <gravity>1</gravity> -->
@@ -838,7 +838,7 @@
         <sensor name='imu_sensor' type='imu'>
           <plugin name='imu_plugin' filename='libgazebo_ros_imu_sensor.so'>
             <ros>
-              <namespace>/demo</namespace>
+              <namespace>/ngeeann_av</namespace>
               <remapping>~/out:=imu</remapping>
             </ros>
             <initial_orientation_as_reference>0</initial_orientation_as_reference>

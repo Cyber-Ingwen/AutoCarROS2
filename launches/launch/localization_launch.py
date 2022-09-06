@@ -17,7 +17,8 @@ def generate_launch_description():
     world = os.path.join(get_package_share_directory(gzpkg), 'worlds', 'ngeeann_av.world')
     urdf = os.path.join(get_package_share_directory(descpkg),'urdf', 'ngeeann_av.urdf')
     rviz = os.path.join(get_package_share_directory(descpkg), 'rviz', 'lidar_view.rviz')
-    
+
+    ekf = os.path.join(get_package_share_directory(navpkg), 'config', 'ekf.yaml')
     navconfig = os.path.join(get_package_share_directory(navpkg), 'config', 'navigation_params.yaml')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')
@@ -34,11 +35,11 @@ def generate_launch_description():
             'RCUTILS_COLORIZED_OUTPUT', '1'
         ),
 
-        ExecuteProcess(
-            cmd=['gzserver', '--verbose', world, 'libgazebo_ros_factory.so'],
-        ),
+        # ExecuteProcess(
+        #     cmd=['gzserver', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world],
+        # ),
 
-        # ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'),
+        ExecuteProcess(cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'),
 
         DeclareLaunchArgument(
             'use_sim_time',
@@ -53,6 +54,14 @@ def generate_launch_description():
             output={'both': 'log'},
             parameters=[{'use_sim_time': use_sim_time}],
             arguments=[urdf]
+        ),
+
+        Node(
+            package='robot_localization',
+            executable='ekf_node',
+            name='ekf_filter_node',
+            output='screen',
+            parameters=[ekf, {'use_sim_time': use_sim_time}]
         ),
 
         Node(
