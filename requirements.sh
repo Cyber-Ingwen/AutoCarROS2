@@ -7,6 +7,7 @@ sudo apt install -y \
     ros-{ROS_DISTRO}-joint-state-publisher \
     ros-{ROS_DISTRO}-vision-msgs \
     ros-{ROS_DISTRO}-gazebo-ros-pkgs \
+    ros-{ROS_DISTRO}-libg2o \
     ros-{ROS_DISTRO}-velodyne*
 
 pip install --upgrade pip

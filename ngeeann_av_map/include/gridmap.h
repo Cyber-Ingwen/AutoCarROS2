@@ -74,8 +74,8 @@ void GridMap::setGridOcc(double x, double y)
 
 void GridMap::setGridFree(double x, double y)
 {
-    int idx = floor( (x / cell_size ) - origin_x );
-    int idy = floor( (y / cell_size ) - origin_y );
+    int idx = floor( (x / cell_size ) + origin_x );
+    int idy = floor( (y / cell_size ) + origin_y );
 
     if ( (idx < size_x) && (idy < size_y) && (0 <= idx) && (0 <= idy) )
     {

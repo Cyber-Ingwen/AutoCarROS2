@@ -63,12 +63,12 @@ def generate_launch_description():
             output={'both': 'log'}
         ),
 
-        # Node(
-        #     package = navpkg,
-        #     name = 'localisation',
-        #     executable = 'localisation.py',
-        #     parameters = [navconfig]
-        # ),
+        Node(
+            package = navpkg,
+            name = 'localisation',
+            executable = 'localisation.py',
+            parameters = [navconfig]
+        ),
 
         # Node(
         #     package = navpkg,
@@ -84,11 +84,11 @@ def generate_launch_description():
         #     parameters = [navconfig]
         # ),
 
-        # Node(
-        #     package = mappkg,
-        #     name = 'bof',
-        #     executable = 'bof',
-        # ),
+        Node(
+            package = mappkg,
+            name = 'bof_lidar',
+            executable = 'bof_lidar',
+        ),
 
         # Node(
         #     package = navpkg,
