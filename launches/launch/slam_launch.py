@@ -5,7 +5,9 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import ThisLaunchFileDir
 
 def generate_launch_description():
 
@@ -13,11 +15,14 @@ def generate_launch_description():
     gzpkg = 'ngeeann_av_gazebo'
     descpkg = 'ngeeann_av_description'
     mappkg = 'ngeeann_av_map'
+    slampkg = 'sloam'
 
     world = os.path.join(get_package_share_directory(gzpkg), 'worlds', 'ngeeann_av.world')
     urdf = os.path.join(get_package_share_directory(descpkg),'urdf', 'ngeeann_av.urdf')
     rviz = os.path.join(get_package_share_directory(descpkg), 'rviz', 'lidar_view.rviz')
-    
+    ekf = os.path.join(get_package_share_directory(navpkg), 'config', 'ekf.yaml')
+
+    slamconfig = os.path.join(get_package_share_directory(slampkg), 'config', 'ros_param.yaml')
     navconfig = os.path.join(get_package_share_directory(navpkg), 'config', 'navigation_params.yaml')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='True')
@@ -46,6 +51,7 @@ def generate_launch_description():
             description='Use simulation (Gazebo) clock if true'
         ),
 
+
         Node(
             package='robot_state_publisher',
             name='robot_state_publisher',
@@ -64,17 +70,13 @@ def generate_launch_description():
         ),
 
         Node(
-            package = mappkg,
-            name = 'bof_lidar',
-            executable = 'bof_lidar',
+            package = navpkg,
+            name = 'localisation',
+            executable = 'localisation.py',
+            parameters = [navconfig]
         ),
 
-        # Node(
-        #     package = navpkg,
-        #     name = 'localisation',
-        #     executable = 'localisation.py',
-        #     parameters = [navconfig]
-        # ),
+        
 
         # Node(
         #     package = navpkg,
@@ -89,6 +91,33 @@ def generate_launch_description():
         #     executable = 'localplanner.py',
         #     parameters = [navconfig]
         # ),
+
+        # Node(
+        #     package='robot_localization',
+        #     executable='ekf_node',
+        #     name='ekf_filter_node',
+        #     output='screen',
+        #     parameters=[ekf, {'use_sim_time': use_sim_time}]
+        # ),
+
+
+        Node(
+            package = mappkg,
+            name = 'bof_lidar',
+            executable = 'bof_lidar',
+        ),
+
+        Node(
+            package = slampkg,
+            executable="frameFeature",
+            parameters=[slamconfig]
+        ),
+    
+        Node(
+            package = slampkg,
+            executable="lidarOdometry"
+        ),
+
 
         # Node(
         #     package = navpkg,

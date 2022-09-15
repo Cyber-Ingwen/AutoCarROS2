@@ -27,15 +27,15 @@ public:
 
 GridMap::GridMap(double origin_x_, double origin_y_, float cell_size_, int size_x_, int size_y_)
 {
-    origin_x = origin_x_;
-    origin_y = origin_y_;
+    origin_x = -origin_x_;
+    origin_y = -origin_y_;
     cell_size = cell_size_;
     origin_pose_x = origin_x*cell_size;
     origin_pose_y = origin_y*cell_size;
     size_x = size_x_;
     size_y = size_y_;
     occ_grid.resize(size_x_, size_y_);
-    occ_grid.setOnes() *= 0.5;
+    occ_grid.setOnes() *= 0.2;
 }
 
 void GridMap::toRosOccMap(nav_msgs::msg::OccupancyGrid& ros_occ_grid)
@@ -74,8 +74,8 @@ void GridMap::setGridOcc(double x, double y)
 
 void GridMap::setGridFree(double x, double y)
 {
-    int idx = floor( (x / cell_size ) + origin_x );
-    int idy = floor( (y / cell_size ) + origin_y );
+    int idx = floor( (x / cell_size ) - origin_x );
+    int idy = floor( (y / cell_size ) - origin_y );
 
     if ( (idx < size_x) && (idy < size_y) && (0 <= idx) && (0 <= idy) )
     {

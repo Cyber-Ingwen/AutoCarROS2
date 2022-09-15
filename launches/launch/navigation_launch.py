@@ -5,7 +5,9 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import ThisLaunchFileDir
 
 def generate_launch_description():
 
@@ -14,6 +16,7 @@ def generate_launch_description():
     descpkg = 'ngeeann_av_description'
     mappkg = 'ngeeann_av_map'
     slampkg = 'sloam'
+    nav2pkg =  'nav2_bringup'
 
     world = os.path.join(get_package_share_directory(gzpkg), 'worlds', 'ngeeann_av.world')
     urdf = os.path.join(get_package_share_directory(descpkg),'urdf', 'ngeeann_av.urdf')
@@ -96,6 +99,11 @@ def generate_launch_description():
             package = slampkg,
             executable="cloud_map",
             parameters=[slamconfig]
+        ),
+
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([get_package_share_directory(nav2pkg), '/launch/navigation_launch.py']),
+            launch_arguments={'params_file':navconfig}.items(),
         ),
 
         # Node(

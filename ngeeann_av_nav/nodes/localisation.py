@@ -7,17 +7,25 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 from ngeeann_av_msgs.msg import State2D
 
+from geometry_msgs.msg import TransformStamped
+from tf2_ros.static_transform_broadcaster import StaticTransformBroadcaster
+
 class Localisation(Node):
 
     def __init__(self):
 
         super().__init__('localisation',automatically_declare_parameters_from_overrides=True)
 
+        self._tf_publisher = StaticTransformBroadcaster(self)
+        self._tf_publisher.sendTransform(self.make_transforms())
+
         # Initialise publishers
         self.localisation_pub = self.create_publisher(State2D, '/ngeeann_av/state2D', 10)
 
         # Initialise subscribers
         self.odom_sub = self.create_subscription(Odometry, '/ngeeann_av/odom', self.vehicle_state_cb, 10)
+
+
 
         # Load parameters
         try:
@@ -35,6 +43,21 @@ class Localisation(Node):
 
         # Class constants
         self.state = None
+
+    def make_transforms(self):
+        map_to_odom = TransformStamped()
+        map_to_odom.header.stamp = self.get_clock().now().to_msg()
+        map_to_odom.header.frame_id = 'map'
+        map_to_odom.child_frame_id = 'odom'
+        map_to_odom.transform.translation.x = 0.0
+        map_to_odom.transform.translation.y = 0.0
+        map_to_odom.transform.translation.z = 0.0
+        map_to_odom.transform.rotation.x = 0.0
+        map_to_odom.transform.rotation.y = 0.0
+        map_to_odom.transform.rotation.z = 0.0
+        map_to_odom.transform.rotation.w = 1.0
+
+        return map_to_odom
 
     def vehicle_state_cb(self, msg):
         self.state = msg

@@ -33,11 +33,12 @@ class OccupancyMapping : public rclcpp::Node
     public:
     OccupancyMapping()
     : Node("bof")
-    {   tf_broadcaster_ = std::make_unique<tf2_ros::StaticTransformBroadcaster>(*this);
-        tf_broadcaster_->sendTransform(tf_stamped());
+    {   
+        // tf_broadcaster_ = std::make_unique<tf2_ros::StaticTransformBroadcaster>(*this);
+        // tf_broadcaster_->sendTransform(tf_stamped());
         
         subscription_ = this->create_subscription<nav_msgs::msg::Odometry>("ngeeann_av/odom", 20, std::bind(&OccupancyMapping::odom_callback, this, _1));
-        subscription2_ = this->create_subscription<sensor_msgs::msg::PointCloud2>("velodyne_points", rclcpp::SensorDataQoS(), std::bind(&OccupancyMapping::cloudCallback, this, _1));
+        subscription2_ = this->create_subscription<sensor_msgs::msg::PointCloud2>("points2", rclcpp::SensorDataQoS(), std::bind(&OccupancyMapping::cloudCallback, this, _1));
         publisher_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("map", rclcpp::SensorDataQoS());
     }
    
@@ -50,33 +51,33 @@ class OccupancyMapping : public rclcpp::Node
     // float lat_update_range = 10.0, long_update_range = 30.0;
 
     std_msgs::msg::Header hd;
-    std::unique_ptr<tf2_ros::StaticTransformBroadcaster> tf_broadcaster_;
+    // std::unique_ptr<tf2_ros::StaticTransformBroadcaster> tf_broadcaster_;
 
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subscription_;
     rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr subscription2_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr publisher_;
 
-    geometry_msgs::msg::TransformStamped tf_stamped()
-    {
-        geometry_msgs::msg::TransformStamped t;
+    // geometry_msgs::msg::TransformStamped tf_stamped()
+    // {
+    //     geometry_msgs::msg::TransformStamped t;
 
-        t.header.stamp = this->get_clock()->now();
-        t.header.frame_id = "map";
-        t.child_frame_id = "odom";
+    //     t.header.stamp = this->get_clock()->now();
+    //     t.header.frame_id = "map";
+    //     t.child_frame_id = "odom";
 
-        t.transform.translation.x = 0.0;
-        t.transform.translation.y = 0.0;
-        t.transform.translation.z = 0.0;
+    //     t.transform.translation.x = 0.0;
+    //     t.transform.translation.y = 0.0;
+    //     t.transform.translation.z = 0.0;
 
-        tf2::Quaternion q;
-        q.setRPY(0, 0, 0);
-        t.transform.rotation.x = q.x();
-        t.transform.rotation.y = q.y();
-        t.transform.rotation.z = q.z();
-        t.transform.rotation.w = q.w();
+    //     tf2::Quaternion q;
+    //     q.setRPY(0, 0, 0);
+    //     t.transform.rotation.x = q.x();
+    //     t.transform.rotation.y = q.y();
+    //     t.transform.rotation.z = q.z();
+    //     t.transform.rotation.w = q.w();
 
-        return t;
-    }
+    //     return t;
+    // }
 
 
     void odom_callback(const nav_msgs::msg::Odometry::SharedPtr msg)

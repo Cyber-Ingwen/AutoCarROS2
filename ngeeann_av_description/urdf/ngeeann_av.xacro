@@ -399,7 +399,7 @@
   </gazebo>
 
   <xacro:include filename="./VLP-16.urdf.xacro"/>
-  <xacro:VLP-16 parent="base_link" name="lidar" topic="/velodyne_points" hz="10" samples="440" gpu="${gpu}">
+  <xacro:VLP-16 parent="base_link" name="lidar" topic="/points2" hz="10" samples="440" gpu="${gpu}">
     <origin xyz="0 0 1.5" rpy="0 0 0" />
   </xacro:VLP-16>
 

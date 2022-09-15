@@ -63,12 +63,12 @@ def generate_launch_description():
             output={'both': 'log'}
         ),
 
-        # Node(
-        #     package = navpkg,
-        #     name = 'localisation',
-        #     executable = 'localisation.py',
-        #     parameters = [navconfig]
-        # ),
+        Node(
+            package = navpkg,
+            name = 'localisation',
+            executable = 'localisation.py',
+            parameters = [navconfig]
+        ),
 
         # Node(
         #     package = navpkg,

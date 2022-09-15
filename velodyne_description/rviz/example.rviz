@@ -151,7 +151,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Flat Squares
-      Topic: /velodyne_points
+      Topic: /points2
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -181,7 +181,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Flat Squares
-      Topic: /velodyne_points2
+      Topic: /points2
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
