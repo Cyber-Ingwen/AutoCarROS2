@@ -39,7 +39,7 @@ class OccupancyMapping : public rclcpp::Node
         
         subscription_ = this->create_subscription<nav_msgs::msg::Odometry>("ngeeann_av/odom", 20, std::bind(&OccupancyMapping::odom_callback, this, _1));
         subscription2_ = this->create_subscription<sensor_msgs::msg::PointCloud2>("points2", rclcpp::SensorDataQoS(), std::bind(&OccupancyMapping::cloudCallback, this, _1));
-        publisher_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("map", rclcpp::SensorDataQoS());
+        publisher_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("map", rclcpp::SensorDataQoS().reliable().transient_local());
     }
    
     private:

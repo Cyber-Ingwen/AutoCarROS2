@@ -35,7 +35,8 @@ GridMap::GridMap(double origin_x_, double origin_y_, float cell_size_, int size_
     size_x = size_x_;
     size_y = size_y_;
     occ_grid.resize(size_x_, size_y_);
-    occ_grid.setOnes() *= 0.2;
+    occ_grid.setOnes() *= 0.5;
+    // occ_grid.setZero();
 }
 
 void GridMap::toRosOccMap(nav_msgs::msg::OccupancyGrid& ros_occ_grid)

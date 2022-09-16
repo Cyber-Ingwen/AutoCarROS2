@@ -29,61 +29,88 @@ localisation:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 5.0
-      publish_frequency: 5.0
+      update_frequency: 2.0
+      publish_frequency: 2.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: True
-      height: 200
-      width: 200
-      origin_x: -100.0
-      origin_y: -100.0
-      robot_radius: 0.5
-      # footprint: '[[0.55, 0.35], [0.55, -0.35], [-0.55, -0.35], [-0.55, 0.35]]'
-      resolution: 0.3
+      # height: 200
+      # width: 200
+      # origin_x: -100.0
+      # origin_y: -100.0
+      map_topic: /map
+      # robot_radius: 0.5
+      footprint: "[[0.5,0.3],[0.5,-0.3],[-0.5, -0.3],[-0.5,0.3]]"
+      resolution: 0.5
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       # KEEPOUT FILTER START
-      filters: ["keepout_filter", "speed_filter"]
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: True
-        filter_info_topic: "/costmap_filter_info"
-      # KEEPOUT FILTER END
-      # SPEED LIMIT FILTER START
-      speed_filter:
-        plugin: "nav2_costmap_2d::SpeedFilter"
-        enabled: True
-        filter_info_topic: "/costmap_filter_info"
-        speed_limit_topic: "/speed_limit"
-      # SPEED LIMIT FILTER END
+      # filters: ["keepout_filter", "speed_filter"]
+      # keepout_filter:
+      #   plugin: "nav2_costmap_2d::KeepoutFilter"
+      #   enabled: True
+      #   filter_info_topic: "/costmap_filter_info"
+      # # KEEPOUT FILTER END
+      # # SPEED LIMIT FILTER START
+      # speed_filter:
+      #   plugin: "nav2_costmap_2d::SpeedFilter"
+      #   enabled: True
+      #   filter_info_topic: "/costmap_filter_info"
+      #   speed_limit_topic: "/speed_limit"
+      # # SPEED LIMIT FILTER END
       
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        observation_sources: pointcloud
-        pointcloud:
+        observation_sources: pointcloud_mark pointcloud_clear
+
+        pointcloud:  
           topic: /points2
           max_obstacle_height: 2.0
           min_obstacle_height: 0.1
-          clearing: True
-          marking: True
-          data_type: "PointCloud2"
-          raytrace_max_range: 10.0
-          raytrace_min_range: 0.0
           obstacle_max_range: 10.0
           obstacle_min_range: 0.0
+          raytrace_max_range: 20.0
+          raytrace_min_range: 0.0
+          clearing: true
+          marking: true
+          data_type: "PointCloud2"
+
+        pointcloud_mark:  
+          topic: /points2
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.1
+          obstacle_max_range: 50.0
+          obstacle_min_range: 0.0
+          raytrace_max_range: 50.0
+          raytrace_min_range: 0.0
+          clearing: false
+          marking: true
+          data_type: "PointCloud2"
+
+        pointcloud_clear:  
+          topic: /points2
+          max_obstacle_height: 5.0
+          min_obstacle_height: -5.0
+          obstacle_max_range: 50.0
+          obstacle_min_range: 0.0
+          raytrace_max_range: 30.0
+          raytrace_min_range: 0.0
+          clearing: true
+          marking: false
+          data_type: "PointCloud2"
 
       static_layer:
-        plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
+        plugin: nav2_costmap_2d::StaticLayer
+        map_subscribe_transient_local: true
         enabled: true
         subscribe_to_updates: true
+        transform_tolerance: 0.2
 
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 1.75
+        cost_scaling_factor: 1.0
+        inflation_radius: 3.0
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -92,58 +119,75 @@ global_costmap:
     ros__parameters:
       use_sim_time: True
 
-
 local_costmap:
   local_costmap:
     ros__parameters:
       update_frequency: 10.0
-      publish_frequency: 5.0
+      publish_frequency: 10.0
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: True
       rolling_window: true
-      width: 8
-      height: 8
-      resolution: 0.025
-      robot_radius: 0.5
-      # footprint: '[[0.55, 0.35], [0.55, -0.35], [-0.55, -0.35], [-0.55, 0.35]]'
+      width: 10
+      height: 10
+      resolution: 0.05
+      # robot_radius: 0.5
+      footprint: "[[0.5,0.3],[0.5,-0.3],[-0.5, -0.3],[-0.5,0.3]]"
       plugins: ["voxel_layer", "inflation_layer"]
-      inflation_layer:
-        plugin: "nav2_costmap_2d::InflationLayer"
-        cost_scaling_factor: 3.0
-        inflation_radius: 1.75
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
         publish_voxel_map: True
         origin_z: 0.0
-        z_resolution: 0.05
+        z_resolution: 0.15
         z_voxels: 16
         max_obstacle_height: 2.0
         mark_threshold: 0
-        observation_sources: pointcloud
-        pointcloud:
+        observation_sources: pointcloud_mark pointcloud_clear
+
+        pointcloud_mark:  
           topic: /points2
           max_obstacle_height: 2.0
-          clearing: True
-          marking: True
+          min_obstacle_height: 0.1
+          obstacle_max_range: 50.0
+          obstacle_min_range: 0.2
+          raytrace_max_range: 50.0
+          raytrace_min_range: 0.0
+          clearing: false
+          marking: true
           data_type: "PointCloud2"
 
-      # KEEPOUT FILTER START
-      filters: ["keepout_filter"]
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: True
-        filter_info_topic: "/costmap_filter_info"
-      # KEEPOUT FILTER END
-      always_send_full_costmap: True
+        pointcloud_clear:  
+          topic: /points2
+          max_obstacle_height: 5.0
+          min_obstacle_height: -5.0
+          obstacle_max_range: 50.0
+          obstacle_min_range: 0.0
+          raytrace_max_range: 30.0
+          raytrace_min_range: 0.0
+          clearing: true
+          marking: false
+          data_type: "PointCloud2"
+
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        cost_scaling_factor: 5.0
+        inflation_radius: 1.0
+
+      # # KEEPOUT FILTER START
+      # filters: ["keepout_filter"]
+      # keepout_filter:
+      #   plugin: "nav2_costmap_2d::KeepoutFilter"
+      #   enabled: True
+      #   filter_info_topic: "/costmap_filter_info"
+      # # KEEPOUT FILTER END
+      # always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
       use_sim_time: True
   local_costmap_rclcpp_node:
     ros__parameters:
       use_sim_time: True
-
 
 bt_navigator:
   ros__parameters:
@@ -201,13 +245,14 @@ controller_server:
   ros__parameters:
     odom_topic: /odom
     use_sim_time: True
-    controller_frequency: 5.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
-    goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
+    # goal_checker_plugins: ["general_goal_checker"] # "precise_goal_checker"
+    controller_frequency: 5.0
+    controller_plugin_types: ["teb_local_planner::TebLocalPlannerROS"]
     controller_plugins: ["FollowPath"]
 
     # Progress checker parameters
@@ -223,13 +268,12 @@ controller_server:
     #  yaw_goal_tolerance: 0.25
     #  stateful: True
 
-    general_goal_checker:
-      stateful: True
-      plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+    # general_goal_checker:
+    #   stateful: True
+    #   plugin: "nav2_controller::SimpleGoalChecker"
+    #   xy_goal_tolerance: 0.25
+    #   yaw_goal_tolerance: 0.25
     
-    controller_plugin_types: ["teb_local_planner::TebLocalPlannerROS"]
     FollowPath:
       plugin: teb_local_planner::TebLocalPlannerROS
 
@@ -237,10 +281,10 @@ controller_server:
       dt_ref: 0.3
       dt_hysteresis: 0.1
       max_samples: 500
-      global_plan_overwrite_orientation: False
-      allow_init_with_backwards_motion: False
+      global_plan_overwrite_orientation: True
+      allow_init_with_backwards_motion: True
       max_global_plan_lookahead_dist: 3.0
-      global_plan_viapoint_sep: 0.3
+      global_plan_viapoint_sep: -1.0
       global_plan_prune_distance: 1.0
       exact_arc_length: False
       feasibility_check_no_poses: 2
@@ -250,8 +294,12 @@ controller_server:
               
       max_vel_x: 1.5
       max_vel_theta: 0.288 
-      acc_lim_x: 2.5
-      acc_lim_theta: 3.2
+      acc_lim_x: 0.5
+      acc_lim_theta: 0.5
+
+      min_turning_radius: 0.5
+      wheelbase: 0.4
+      cmd_angle_instead_rotvel: True
 
       footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
         type: "circular"
@@ -259,7 +307,10 @@ controller_server:
 
       # GoalTolerance
               
+      xy_goal_tolerance: 0.2
+      yaw_goal_tolerance: 0.1
       free_goal_vel: False
+      complete_global_plan: True
           
       # Obstacles
           
@@ -272,9 +323,19 @@ controller_server:
       dynamic_obstacle_inflation_dist: 0.6
       include_dynamic_obstacles: True 
 
-      costmap_converter_plugin: "costmap_converter::CostmapToPolygonsDBSMCCH"
+      costmap_converter_plugin: "costmap_converter::CostmapToLinesDBSRANSAC"
       costmap_converter_spin_thread: True
       costmap_converter_rate: 5
+      costmap_converter/CostmapToLinesDBSRANSAC:
+        cluster_max_distance: 0.4
+        cluster_min_pts: 2
+        ransac_inlier_distance: 0.15
+        ransac_min_inliers: 10
+        ransac_no_iterations: 1500
+        ransac_remainig_outliers: 3
+        ransac_convert_outlier_pts: True
+        ransac_filter_remaining_outlier_pts: False
+        convex_hull_min_pt_separation: 0.1
 
       # Optimization
           
@@ -284,12 +345,12 @@ controller_server:
       optimization_verbose: False
       penalty_epsilon: 0.1
       obstacle_cost_exponent: 4.0
-      weight_max_vel_x: 0.5
-      weight_max_vel_theta: 0.5
-      weight_acc_lim_x: 0.5
-      weight_acc_lim_theta: 10.5
+      weight_max_vel_x: 2.0
+      weight_max_vel_theta: 1.0
+      weight_acc_lim_x: 1.0
+      weight_acc_lim_theta: 1.0
       weight_kinematics_nh: 1000.0
-      weight_kinematics_forward_drive: 3.0
+      weight_kinematics_forward_drive: 1.0
       weight_kinematics_turning_radius: 1.0
       weight_optimaltime: 1.0 # must be > 0
       weight_shortest_path: 0.0
@@ -297,7 +358,7 @@ controller_server:
       weight_inflation: 0.2
       weight_dynamic_obstacle: 10.0 # not in use yet
       weight_dynamic_obstacle_inflation: 0.2
-      weight_viapoint: 50.0
+      weight_viapoint: 1.0
       weight_adapt_factor: 2.0
 
       # Homotopy Class Planner
@@ -305,10 +366,10 @@ controller_server:
       enable_homotopy_class_planning: True
       enable_multithreading: True
       max_number_classes: 4
-      selection_cost_hysteresis: 5.0
-      selection_prefer_initial_plan: 1.0
+      selection_cost_hysteresis: 1.0
+      selection_prefer_initial_plan: 0.95
       selection_obst_cost_scale: 1.0
-      selection_alternative_time_cost: True
+      selection_alternative_time_cost: False
 
       roadmap_graph_no_samples: 15
       roadmap_graph_area_width: 5.0
@@ -376,19 +437,22 @@ planner_server_rclcpp_node:
 
 recoveries_server:
   ros__parameters:
-    costmap_topic: local_costmap/costmap_raw
+    costmap_topic: local_costmap/costmap
     footprint_topic: local_costmap/published_footprint
     cycle_frequency: 10.0
+    # recovery_plugins: ["spin", "backup", "drive_on_heading", "wait"]
     recovery_plugins: ["spin", "backup", "wait"]
     spin:
       plugin: "nav2_recoveries/Spin"
     backup:
       plugin: "nav2_recoveries/BackUp"
+    # drive_on_heading:
+    #   plugin: "nav2_recoveries/DriveOnHeading"
     wait:
       plugin: "nav2_recoveries/Wait"
-    global_frame: odom
+    global_frame: map
     robot_base_frame: base_link
-    transform_timeout: 0.1
+    transform_tolerance: 0.1
     use_sim_time: true
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
