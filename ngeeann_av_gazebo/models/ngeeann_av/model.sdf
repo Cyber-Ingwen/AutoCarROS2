@@ -726,7 +726,7 @@
       <plugin name='ackermann_drive' filename='libgazebo_ros_ackermann_drive.so'>
 
         <ros>
-          <namespace>ngeeann_av</namespace>
+          <namespace></namespace>
           <remapping>cmd_vel:=cmd_vel</remapping>
           <remapping>odom:=odom</remapping>
           <remapping>distance:=distance</remapping>
